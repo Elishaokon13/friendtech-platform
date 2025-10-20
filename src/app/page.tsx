@@ -8,6 +8,7 @@ import { TradingInterface } from '@/components/TradingInterface';
 import { AdvancedTrading } from '@/components/AdvancedTrading';
 import { TradingDashboard } from '@/components/TradingDashboard';
 import { PricingIntegration } from '@/components/PricingIntegration';
+import { ContentAccessIntegration } from '@/components/ContentAccessIntegration';
 import { Button, Card, CardHeader, CardTitle, CardContent } from '@/components/ui';
 import { useZora } from '@/hooks/useZora';
 import { Palette, Coins, TrendingUp, Activity, Users } from 'lucide-react';
@@ -16,7 +17,7 @@ import { CreatorCoin } from '@/types';
 export default function Home() {
   const [showDesignSystem, setShowDesignSystem] = useState(false);
   const [selectedCoin, setSelectedCoin] = useState<CreatorCoin | null>(null);
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'coins' | 'trading' | 'pricing'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'coins' | 'trading' | 'pricing' | 'content'>('dashboard');
   
   const { isConnected, coins, loading, error } = useZora();
 
@@ -147,6 +148,13 @@ export default function Home() {
                   >
                     Pricing Engine
                   </Button>
+                  <Button
+                    variant={activeTab === 'content' ? 'default' : 'ghost'}
+                    onClick={() => setActiveTab('content')}
+                    disabled={!selectedCoin}
+                  >
+                    Exclusive Content
+                  </Button>
                 </div>
 
                 {/* Tab Content */}
@@ -183,12 +191,22 @@ export default function Home() {
                       // Handle trade completion
                     }}
                   />
+                ) : activeTab === 'content' ? (
+                  <ContentAccessIntegration
+                    coin={selectedCoin}
+                    userId={account || 'anonymous'}
+                    isCreator={selectedCoin?.creatorId === account}
+                    onContentAccess={(contentId) => {
+                      console.log('Content accessed:', contentId);
+                    }}
+                  />
                 ) : (
                   <Card>
                     <CardContent className="p-8 text-center">
                       <p className="text-gray-500">
                         {activeTab === 'trading' ? 'Please select a coin to start trading' : 
                          activeTab === 'pricing' ? 'Select a coin to view pricing analysis' : 
+                         activeTab === 'content' ? 'Select a coin to view exclusive content' :
                          'Please select a coin'}
                       </p>
                     </CardContent>
