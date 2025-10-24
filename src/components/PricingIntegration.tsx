@@ -311,3 +311,4 @@ export const PricingIntegration: React.FC<PricingIntegrationProps> = ({
     </div>
   );
 };
+

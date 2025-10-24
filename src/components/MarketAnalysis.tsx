@@ -411,3 +411,4 @@ export const MarketAnalysis: React.FC<MarketAnalysisProps> = ({
     </div>
   );
 };
+

@@ -540,3 +540,4 @@ export const AdvancedTrading: React.FC<AdvancedTradingProps> = ({ coin, onTradeC
     </div>
   );
 };
+

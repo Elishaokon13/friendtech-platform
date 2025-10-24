@@ -246,3 +246,4 @@ export const CreatorCoinList: React.FC<CreatorCoinListProps> = ({ onCoinSelect, 
     </div>
   );
 };
+

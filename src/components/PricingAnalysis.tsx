@@ -392,3 +392,4 @@ export const PricingAnalysis: React.FC<PricingAnalysisProps> = ({
     </div>
   );
 };
+

@@ -9,6 +9,7 @@ import { AdvancedTrading } from '@/components/AdvancedTrading';
 import { TradingDashboard } from '@/components/TradingDashboard';
 import { PricingIntegration } from '@/components/PricingIntegration';
 import { ContentAccessIntegration } from '@/components/ContentAccessIntegration';
+import { RevenueIntegration } from '@/components/RevenueIntegration';
 import { Button, Card, CardHeader, CardTitle, CardContent } from '@/components/ui';
 import { useZora } from '@/hooks/useZora';
 import { Palette, Coins, TrendingUp, Activity, Users } from 'lucide-react';
@@ -17,7 +18,7 @@ import { CreatorCoin } from '@/types';
 export default function Home() {
   const [showDesignSystem, setShowDesignSystem] = useState(false);
   const [selectedCoin, setSelectedCoin] = useState<CreatorCoin | null>(null);
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'coins' | 'trading' | 'pricing' | 'content'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'coins' | 'trading' | 'pricing' | 'content' | 'revenue'>('dashboard');
   
   const { isConnected, coins, loading, error } = useZora();
 
@@ -155,6 +156,13 @@ export default function Home() {
                   >
                     Exclusive Content
                   </Button>
+                  <Button
+                    variant={activeTab === 'revenue' ? 'default' : 'ghost'}
+                    onClick={() => setActiveTab('revenue')}
+                    disabled={!selectedCoin}
+                  >
+                    Revenue Distribution
+                  </Button>
                 </div>
 
                 {/* Tab Content */}
@@ -200,6 +208,14 @@ export default function Home() {
                       console.log('Content accessed:', contentId);
                     }}
                   />
+                ) : activeTab === 'revenue' ? (
+                  <RevenueIntegration
+                    coin={selectedCoin}
+                    isCreator={selectedCoin?.creatorId === account}
+                    onRevenueDistributed={(distribution) => {
+                      console.log('Revenue distributed:', distribution);
+                    }}
+                  />
                 ) : (
                   <Card>
                     <CardContent className="p-8 text-center">
@@ -207,6 +223,7 @@ export default function Home() {
                         {activeTab === 'trading' ? 'Please select a coin to start trading' : 
                          activeTab === 'pricing' ? 'Select a coin to view pricing analysis' : 
                          activeTab === 'content' ? 'Select a coin to view exclusive content' :
+                         activeTab === 'revenue' ? 'Select a coin to view revenue distribution' :
                          'Please select a coin'}
                       </p>
                     </CardContent>

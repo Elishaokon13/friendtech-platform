@@ -291,3 +291,4 @@ export const TradingInterface: React.FC<TradingInterfaceProps> = ({ coin, onTrad
     </div>
   );
 };
+
